@@ -39,9 +39,7 @@ async function run() {
     app.put("/add-user-by-google", async (req, res) => {
       const user = req.body;
 
-      //   const result = await usersCollection.insertOne(user,update,options);
       let result = await usersCollection.find({ email: user?.email });
-      console.log(result, " i am result of google sign in");
       if (result != user?.email) {
         let newUser = {
           email: user.email,
@@ -134,6 +132,19 @@ async function run() {
 
       }
     });
+
+
+    app.get(`/user-data`, async (req, res) => {
+      const userEmail = req?.query?.email;
+      // console.log(userEmail, ' userr Email');
+      const query = {email: userEmail}
+      let result = await usersCollection?.findOne(query);
+      // console.log(result, ' result!');
+      res.send(result)
+      // console.log(email);
+    })
+
+
   } finally {
     // await client.close();
   }
